@@ -19,7 +19,9 @@ RUN apt-get update \
         zip \
         unzip \
         python3 \
-        python3-pip
+        python3-pip \
+&& curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
+&& az extension add --name azure-devops --yes
 
 WORKDIR /azp
 
