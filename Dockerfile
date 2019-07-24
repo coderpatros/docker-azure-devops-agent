@@ -17,7 +17,9 @@ RUN apt-get update \
         libunwind8 \
         netcat \
         zip \
-        unzip
+        unzip \
+        python3 \
+        python3-pip
 
 WORKDIR /azp
 
