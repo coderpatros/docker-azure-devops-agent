@@ -15,13 +15,34 @@ RUN apt-get update \
         libcurl3 \
         libicu55 \
         libunwind8 \
-        netcat \
+        netcat
+
+# Install some extra tools
+RUN apt-get install -y --no-install-recommends \
         zip \
         unzip \
         python3 \
-        python3-pip \
-&& curl -sL https://aka.ms/InstallAzureCLIDeb | bash \
-&& az extension add --name azure-devops --yes
+        python3-pip
+
+# Install Azure CLI
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+# Install Azure DevOps CLI
+RUN az extension add --name azure-devops --yes
+
+# Install .NET Core SDK
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+RUN apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        wget \
+&& wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+&& dpkg -i packages-microsoft-prod.deb \
+&& rm packages-microsoft-prod.deb \
+&& apt-get update \
+&& apt-get install dotnet-sdk-2.2
+
+# cleanup
+RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /azp
 
