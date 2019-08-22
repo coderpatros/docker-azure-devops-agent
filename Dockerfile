@@ -7,6 +7,8 @@ RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
+        apt-transport-https \
+        wget \
         ca-certificates \
         curl \
         jq \
@@ -30,11 +32,21 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 # Install Azure DevOps CLI
 RUN az extension add --name azure-devops --yes
 
+# Install PowerShell and the Az module
+# Download the Microsoft repository GPG keys
+# Register the Microsoft repository GPG keys
+# Update the list of products
+# Install PowerShell
+# Install the Az module
+RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
+&& dpkg -i packages-microsoft-prod.deb \
+&& apt-get update \
+&& apt-get install -y powershell \
+&& pwsh -Command Install-Module -Name Az -AllowClobber -Scope AllUsers
+
 # Install .NET Core SDK
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 RUN apt-get install -y --no-install-recommends \
-        apt-transport-https \
-        wget \
 && wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
 && dpkg -i packages-microsoft-prod.deb \
 && rm packages-microsoft-prod.deb \
