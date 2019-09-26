@@ -42,7 +42,7 @@ RUN wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsof
 && dpkg -i packages-microsoft-prod.deb \
 && apt-get update \
 && apt-get install -y powershell \
-&& pwsh -Command Install-Module -Name Az -AllowClobber -Scope AllUsers
+&& pwsh -Command Install-Module -Name Az -AcceptLicense -AllowClobber -Scope AllUsers -Force
 
 # Install .NET Core SDK
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
