@@ -24,7 +24,8 @@ RUN apt-get install -y --no-install-recommends \
         zip \
         unzip \
         python3 \
-        python3-pip
+        python3-pip \
+        python3-pytest
 
 # Install Azure CLI
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
