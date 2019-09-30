@@ -54,6 +54,13 @@ RUN apt-get install -y --no-install-recommends \
 && apt-get update \
 && apt-get install dotnet-sdk-2.2
 
+# Install certbot
+RUN apt-get install -y software-properties-common \
+    && add-apt-repository universe \
+    && add-apt-repository ppa:certbot/certbot \
+    && apt-get update \
+    && apt-get install -y certbot
+
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
 
